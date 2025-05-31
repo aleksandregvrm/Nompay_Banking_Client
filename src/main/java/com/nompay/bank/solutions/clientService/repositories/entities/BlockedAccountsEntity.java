@@ -1,0 +1,76 @@
+package com.nompay.bank.solutions.clientService.repositories.entities;
+
+import jakarta.persistence.*;
+
+import java.util.Date;
+
+@Entity
+@Table(name = "blocked_accounts")
+public class BlockedAccountsEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "user", nullable = false)
+    private UserEntity ownerUser;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "account_id", nullable = false)
+    private AccountEntity blockedByAccount;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "blocked_account_id", nullable = false)
+    private AccountEntity blockedAccount;
+
+    @Column(name = "blocked_account_email", nullable = false)
+    private String blockedUserEmail;
+
+    @Column(name = "block_date", nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date blockDate;
+
+    public BlockedAccountsEntity(AccountEntity blockedByAccount, AccountEntity blockedAccount, String blockedUserEmail, Date blockDate) {
+        this.blockedByAccount = blockedByAccount;
+        this.blockedAccount = blockedAccount;
+        this.blockedUserEmail = blockedUserEmail;
+        this.blockDate = blockDate;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public AccountEntity getBlockedByAccount() {
+        return blockedByAccount;
+    }
+
+    public AccountEntity getBlockedAccount() {
+        return blockedAccount;
+    }
+
+    public Date getBlockDate() {
+        return blockDate;
+    }
+
+    public String getBlockedUserEmail() {
+        return blockedUserEmail;
+    }
+
+    public void setBlockedByAccount(AccountEntity blockedByAccount) {
+        this.blockedByAccount = blockedByAccount;
+    }
+
+    public void setBlockedAccount(AccountEntity blockedAccount) {
+        this.blockedAccount = blockedAccount;
+    }
+
+    public void setBlockedUserEmail(String blockedUserEmail) {
+        this.blockedUserEmail = blockedUserEmail;
+    }
+
+    public void setBlockDate(Date blockDate) {
+        this.blockDate = blockDate;
+    }
+}
