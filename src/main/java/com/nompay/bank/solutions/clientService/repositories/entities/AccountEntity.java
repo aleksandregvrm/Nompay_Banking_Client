@@ -1,5 +1,6 @@
 package com.nompay.bank.solutions.clientService.repositories.entities;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 import java.util.Date;
@@ -14,6 +15,10 @@ import java.util.List;
 )
 public class AccountEntity {
 
+    @Id
+    @GeneratedValue
+    private long id;
+
     @Column(nullable = false, length = 100)
     private String name;
 
@@ -22,25 +27,35 @@ public class AccountEntity {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "owner_user_id", nullable = false)
-    private UserEntity ownerUser;
+    private final UserEntity ownerUser;
 
-    @OneToMany(mappedBy = "blockedAccount", cascade = CascadeType.PERSIST, orphanRemoval = true)
+    @OneToMany(mappedBy = "blockedAccounts", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private List<BlockedAccountsEntity> blockedAccounts;
 
     @OneToMany(mappedBy = "blockedByAccount", cascade = CascadeType.PERSIST, orphanRemoval = true)
-    private List<BlockedAccountsEntity> blockedByAccounts;
+    private List<BlockedAccountsEntity> blockedByAccount;
 
     @Column(nullable = false)
-    private Integer balance;
+    private double balance;
 
     @Column(nullable = false)
     private String currency;
 
-    @Column(name = "create_date")
+    @Column(name = "create_date", updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date createDate;
 
-    public AccountEntity() {
+    public AccountEntity(String name, String email, UserEntity ownerUser, Integer balance, String currency) {
+        this.name = name;
+        this.email = email;
+        this.ownerUser = ownerUser;
+        this.balance = balance;
+        this.currency = currency;
+    }
+
+    @PrePersist
+    protected void onCreate() {
+        this.createDate = new Date();
     }
 
     public String getName() {
@@ -67,7 +82,7 @@ public class AccountEntity {
         this.blockedAccounts = blockedUsers;
     }
 
-    public Integer getBalance() {
+    public double getBalance() {
         return balance;
     }
 
@@ -92,14 +107,22 @@ public class AccountEntity {
     }
 
     public List<BlockedAccountsEntity> getBlockedByAccounts() {
-        return blockedByAccounts;
+        return blockedByAccount;
     }
 
     public void setBlockedByAccounts(List<BlockedAccountsEntity> blockedByAccounts) {
-        this.blockedByAccounts = blockedByAccounts;
+        this.blockedByAccount = blockedByAccounts;
     }
 
     public Date getCreateDate() {
         return createDate;
+    }
+
+    public UserEntity getOwnerUser() {
+        return ownerUser;
+    }
+
+    public List<BlockedAccountsEntity> getBlockedByAccount() {
+        return blockedByAccount;
     }
 }

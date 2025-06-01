@@ -1,0 +1,21 @@
+extend type Query {
+    getAllBlockedAccounts(blockedByAccountId: String!): [Account]
+    getSingleBlockedAccount(blockedByAccountId: String!, blockedAccountId: String!): Account
+}
+
+extend type Mutation {
+    blockAccount(blockedByAccountId: String!, blockedAccountId: String!): String
+    blockAllUserAccounts(blockedByAccountId: String!, blockedUserId: String!): String
+    unblockAccount(blockedByAccountId: String!, blockedAccountId: String!): String
+}
+
+type BlockedAccount {
+    id: Int!
+    blockedByAccount: Account!
+    blockedAccount: Account!
+    blockedUserEmail: String!
+    blockDate: String!
+}
+
+
+

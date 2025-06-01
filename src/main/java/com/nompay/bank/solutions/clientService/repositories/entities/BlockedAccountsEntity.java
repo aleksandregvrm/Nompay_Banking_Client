@@ -13,11 +13,7 @@ public class BlockedAccountsEntity {
     private Long id;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "user", nullable = false)
-    private UserEntity ownerUser;
-
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "account_id", nullable = false)
+    @JoinColumn(name = "blocker_account_id", nullable = false)
     private AccountEntity blockedByAccount;
 
     @ManyToOne(optional = false)
@@ -27,7 +23,7 @@ public class BlockedAccountsEntity {
     @Column(name = "blocked_account_email", nullable = false)
     private String blockedUserEmail;
 
-    @Column(name = "block_date", nullable = false)
+    @Column(name = "block_date", updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date blockDate;
 
@@ -36,6 +32,14 @@ public class BlockedAccountsEntity {
         this.blockedAccount = blockedAccount;
         this.blockedUserEmail = blockedUserEmail;
         this.blockDate = blockDate;
+    }
+
+    @PrePersist
+    protected void onCreate() {
+        this.blockDate = new Date();
+    }
+
+    public BlockedAccountsEntity() {
     }
 
     public Long getId() {

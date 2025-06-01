@@ -1,6 +1,8 @@
 package com.nompay.bank.solutions.clientService.repositories.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 import java.util.Date;
 import java.util.List;
@@ -17,22 +19,30 @@ public class UserEntity {
         @GeneratedValue
         private long id;
 
+        @NotBlank
+        @Size(min = 5, max = 30, message = "Email must be at least 5 characters long, less than 30")
         @Column(nullable = false)
         private String email;
 
+        @NotBlank
+        @Size(min = 3, max = 25, message = "name must be at least 3 characters long, less than 25")
         @Column(nullable = false)
         private String name;
 
+        @NotBlank
+        @Size(min = 5, max = 25, message = "Email must be at least 5 characters long, less than 25")
         @Column(nullable = false)
         private String surname;
 
+        @NotBlank
+        @Size(min = 5, max = 35, message = "Email must be at least 5 characters long, less than 35")
         @Column(nullable = false)
         private String password;
 
         @OneToMany(mappedBy = "ownerUser", cascade = CascadeType.PERSIST, orphanRemoval = true)
         private List<AccountEntity> Accounts;
 
-        @Column(name = "create_date")
+        @Column(name = "create_date", updatable = false)
         @Temporal(TemporalType.TIMESTAMP)
         private Date createDate;
 
@@ -42,6 +52,14 @@ public class UserEntity {
                 this.surname = surname;
                 this.password = password;
                 Accounts = accounts;
+        }
+
+        public UserEntity() {
+        }
+
+        @PrePersist
+        protected void onCreate() {
+                this.createDate = new Date();
         }
 
         public void setEmail(String email) {

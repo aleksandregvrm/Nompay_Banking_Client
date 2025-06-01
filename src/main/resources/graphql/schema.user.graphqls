@@ -3,17 +3,19 @@ type Query {
 }
 
 type Mutation {
-    createUser(input: CreateUserInput): User
+    createUser(input: CreateUserInput!): User
     updateUser(id: Int!, input: UpdateUserInput!): User
 }
 
 type User {
-    id: Int
-    email: String
-    username: String
-    password: String
-    name: String
-    surname: String
+    id: Int!
+    email: String!
+    username: String!
+    password: String!
+    name: String!
+    surname: String!
+    accounts: [Account]
+    createDate: String!
 }
 
 input CreateUserInput {

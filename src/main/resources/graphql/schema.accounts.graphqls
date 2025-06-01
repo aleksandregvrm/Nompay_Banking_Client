@@ -1,0 +1,24 @@
+extend type Query {
+    getMyAccounts(userId: String!, currency: String!): [Account]
+}
+
+extend type Mutation {
+    createAccount(userId: String!, currency: String!): Account
+    updateAccount(input: UpdateAccountInput!): String
+}
+
+type Account {
+    id: Int!
+    name: String!
+    email: String!
+    ownerUser: Int!
+    blockedAccounts: [Account]
+    balance: Int!
+    currency: String!
+    createDate: String!
+}
+
+input UpdateAccountInput {
+    name: String!
+    email: String!
+}
