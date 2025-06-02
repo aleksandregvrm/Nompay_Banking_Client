@@ -4,7 +4,7 @@ type Query {
 
 type Mutation {
     createUser(input: CreateUserInput!): User
-    updateUser(id: Int!, input: UpdateUserInput!): User
+    updateUser(userId: Int!, input: UpdateUserInput!): User
 }
 
 type User {

@@ -18,7 +18,7 @@ public class BlockedAccountsEntity {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "blocked_account_id", nullable = false)
-    private AccountEntity blockedAccount;
+    private AccountEntity blockedAccounts;
 
     @Column(name = "blocked_account_email", nullable = false)
     private String blockedUserEmail;
@@ -29,7 +29,7 @@ public class BlockedAccountsEntity {
 
     public BlockedAccountsEntity(AccountEntity blockedByAccount, AccountEntity blockedAccount, String blockedUserEmail, Date blockDate) {
         this.blockedByAccount = blockedByAccount;
-        this.blockedAccount = blockedAccount;
+        this.blockedAccounts = blockedAccount;
         this.blockedUserEmail = blockedUserEmail;
         this.blockDate = blockDate;
     }
@@ -50,8 +50,8 @@ public class BlockedAccountsEntity {
         return blockedByAccount;
     }
 
-    public AccountEntity getBlockedAccount() {
-        return blockedAccount;
+    public AccountEntity getBlockedAccounts() {
+        return blockedAccounts;
     }
 
     public Date getBlockDate() {
@@ -66,8 +66,8 @@ public class BlockedAccountsEntity {
         this.blockedByAccount = blockedByAccount;
     }
 
-    public void setBlockedAccount(AccountEntity blockedAccount) {
-        this.blockedAccount = blockedAccount;
+    public void setBlockedAccounts(AccountEntity blockedAccount) {
+        this.blockedAccounts = blockedAccount;
     }
 
     public void setBlockedUserEmail(String blockedUserEmail) {

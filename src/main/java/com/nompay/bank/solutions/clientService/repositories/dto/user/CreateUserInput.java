@@ -1,4 +1,4 @@
-package com.nompay.bank.solutions.clientService.repositories.dto;
+package com.nompay.bank.solutions.clientService.repositories.dto.user;
 
 public class CreateUserInput {
     private String email;
