@@ -21,6 +21,7 @@ public class UserController {
 
     @MutationMapping
     public UserEntity createUser(@Argument("input") CreateUserInput input) throws Exception {
+        out.println("asdasda");
         out.println(input);
         return this.userService.registerUser(input);
     }
