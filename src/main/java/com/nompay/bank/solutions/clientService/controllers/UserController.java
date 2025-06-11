@@ -16,26 +16,31 @@ import static java.lang.System.out;
 @Controller
 public class UserController {
 
-    @Autowired
-    private UserServiceImpl userService;
+  @Autowired
+  private UserServiceImpl userService;
 
-    @MutationMapping
-    public UserEntity createUser(@Argument("input") CreateUserInput input) throws Exception {
-        out.println("asdasda");
-        out.println(input);
-        return this.userService.registerUser(input);
-    }
+  @MutationMapping(name = "createUser")
+  public UserEntity createUser(@Argument("input") CreateUserInput input) throws Exception {
+    System.out.println("createUser input: " + input);
+    return this.userService.registerUser(input);
+  }
 
-    @QueryMapping
-    public UserEntity getSingleUser(@Argument int userId) throws BadRequestException {
-        out.println(userId);
-        return this.userService.getUser(userId);
-    }
+  @QueryMapping(name = "getUser")
+  public UserEntity getUser(@Argument("id") int id) throws BadRequestException {
+    System.out.println("getUser id: " + id);
+    return this.userService.getUser(id);
+  }
 
-    @QueryMapping
-    public UserEntity updateUser(@Argument int userId, @Argument("input") UpdateUserInput input) throws Exception {
-        out.println(userId);
-        return this.userService.updateUser(userId, input);
-    }
+  @MutationMapping(name = "updateUser")
+  public UserEntity updateUser(@Argument("userId") int userId, @Argument("input") UpdateUserInput input) throws Exception {
+    System.out.println("updateUser userId: " + userId);
+    return this.userService.updateUser(userId, input);
+  }
 
+  @QueryMapping(name = "graphTest")
+  public String graphTest(@Argument("userId") String userId) {
+    out.println("there is some error going in here in here in here.,.......");
+    return userId;
+  }
 }
+
