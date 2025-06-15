@@ -42,15 +42,14 @@ public class UserServiceImpl implements UserService {
   //Registering user
   @Override
   public UserEntity registerUser(CreateUserInput input) throws Exception {
-    out.println(input);
     UserEntity user = new UserEntity();
     user.setName(input.getName());
-    user.setSurname(input.getEmail());
+    user.setSurname(input.getSurname());
+    user.setUsername(input.getUsername());
     user.setEmail(input.getEmail());
     String encryptedPassword = this.passwordServiceImpl.encryptPassword(input.getPassword()); // Encrypting the password...
     user.setPassword(encryptedPassword);
-    out.println(user);
-    // ✅ Validate user entity before saving
+    // Validating all constraints here...
     Set<ConstraintViolation<UserEntity>> violations = validator.validate(user);
     if (!violations.isEmpty()) {
       StringBuilder sb = new StringBuilder();
@@ -77,7 +76,6 @@ public class UserServiceImpl implements UserService {
 
     UserEntity user = userOptional.get();
 
-    // 🔒 Update only non-null fields
     if (input.getEmail() != null) {
       user.setEmail(input.getEmail());
     }

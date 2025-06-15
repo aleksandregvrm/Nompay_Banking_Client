@@ -10,7 +10,7 @@ import java.util.Base64;
 @Component
 public class PasswordServiceImpl implements PasswordService {
 
-    private static final String PASSWORD_SECRET_KEY = "randompassworEncryptionKey";
+    private static final String PASSWORD_SECRET_KEY = "randompassworEncryption1";
 
     public PasswordServiceImpl() {
     }
