@@ -2,6 +2,7 @@ package com.nompay.bank.solutions.clientService.services.impl;
 
 import com.nompay.bank.solutions.clientService.repositories.dto.user.CreateUserInput;
 import com.nompay.bank.solutions.clientService.repositories.dto.user.UpdateUserInput;
+import com.nompay.bank.solutions.clientService.repositories.entities.AccountEntity;
 import com.nompay.bank.solutions.clientService.repositories.entities.UserEntity;
 import com.nompay.bank.solutions.clientService.repositories.entities.jpa.AccountEntityJpa;
 import com.nompay.bank.solutions.clientService.repositories.entities.jpa.BlockedAccountsEntityJpa;
@@ -15,14 +16,17 @@ import org.apache.coyote.BadRequestException;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.logging.Logger;
 
 import static java.lang.System.out;
 
 @Service
 public class UserServiceImpl implements UserService {
 
+  private static final Logger logger = Logger.getLogger(UserServiceImpl.class.getName()); // Logger used for logging,,,
   private final UserEntityJpa userRepository;
   private final AccountEntityJpa accountRepository;
   private final BlockedAccountsEntityJpa blockedAccountRepository;
@@ -93,7 +97,6 @@ public class UserServiceImpl implements UserService {
       user.setSurname(input.getSurname());
     }
 
-    // ✅ Optionally validate the updated entity
     Set<ConstraintViolation<UserEntity>> violations = validator.validate(user);
     if (!violations.isEmpty()) {
       StringBuilder sb = new StringBuilder();
@@ -116,4 +119,24 @@ public class UserServiceImpl implements UserService {
     }
     return user.get();
   }
+
+  @Override
+  public void deleteUser(int userId) throws BadRequestException {
+    Optional<UserEntity> user = this.userRepository.findById((long) userId);
+    if (user.isEmpty()) {
+      throw new BadRequestException("No user found with that id");
+    }
+    UserEntity userToDelete = user.get();
+
+    List<AccountEntity> accounts = userToDelete.getAccounts();
+
+    if (accounts.isEmpty()) {
+      this.userRepository.deleteById((long) userId);
+    } else {
+      throw new BadRequestException("You need to Delete the accounts of this user first...");
+    }
+
+  }
+
+
 }

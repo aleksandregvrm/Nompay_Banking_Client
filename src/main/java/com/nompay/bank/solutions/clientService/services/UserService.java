@@ -11,4 +11,6 @@ public interface UserService {
     UserEntity updateUser(int userId, UpdateUserInput user) throws Exception;
 
     UserEntity getUser(int userId) throws BadRequestException;
+
+    void deleteUser(int userId) throws BadRequestException;
 }

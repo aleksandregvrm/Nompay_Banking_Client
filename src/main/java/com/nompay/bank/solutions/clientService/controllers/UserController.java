@@ -21,26 +21,24 @@ public class UserController {
 
   @MutationMapping(name = "createUser")
   public UserEntity createUser(@Argument("input") CreateUserInput input) throws Exception {
-    System.out.println("createUser input: " + input);
     return this.userService.registerUser(input);
   }
 
   @QueryMapping(name = "getUser")
   public UserEntity getUser(@Argument("id") int id) throws BadRequestException {
-    System.out.println("getUser id: " + id);
     return this.userService.getUser(id);
   }
 
   @MutationMapping(name = "updateUser")
   public UserEntity updateUser(@Argument("userId") int userId, @Argument("input") UpdateUserInput input) throws Exception {
-    System.out.println("updateUser userId: " + userId);
     return this.userService.updateUser(userId, input);
   }
 
-  @QueryMapping(name = "graphTest")
-  public String graphTest(@Argument("userId") String userId) {
-    out.println("there is some error going in here in here in here.,.......");
-    return userId;
+  @MutationMapping(name = "deleteUser")
+  public String deleteUser(@Argument("userId") int userId) throws BadRequestException{
+    this.userService.deleteUser(userId);
+    return "User Deleted";
   }
+
 }
 
