@@ -9,6 +9,7 @@ import com.nompay.bank.solutions.clientService.repositories.entities.jpa.Blocked
 import com.nompay.bank.solutions.clientService.repositories.entities.jpa.UserEntityJpa;
 import com.nompay.bank.solutions.clientService.services.UserService;
 import com.nompay.bank.solutions.clientService.utils.impl.PasswordServiceImpl;
+import com.nompay.bank.solutions.clientService.utils.impl.UserHelperServiceImpl;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ValidationException;
 import jakarta.validation.Validator;
@@ -35,12 +36,16 @@ public class UserServiceImpl implements UserService {
   @Lazy
   private final PasswordServiceImpl passwordServiceImpl; // Lazy initializing the password service...
 
-  public UserServiceImpl(UserEntityJpa userRepository, AccountEntityJpa accountRepository, BlockedAccountsEntityJpa blockedAccountRepository, PasswordServiceImpl passwordServiceImpl, Validator validator) {
+  @Lazy
+  private final UserHelperServiceImpl userHelperServiceImpl; // Lazy initializing the user helpers service...
+
+  public UserServiceImpl(UserEntityJpa userRepository, AccountEntityJpa accountRepository, BlockedAccountsEntityJpa blockedAccountRepository, PasswordServiceImpl passwordServiceImpl, Validator validator, UserHelperServiceImpl userHelpersServiceImpl) {
     this.userRepository = userRepository;
     this.accountRepository = accountRepository;
     this.blockedAccountRepository = blockedAccountRepository;
     this.passwordServiceImpl = passwordServiceImpl;
     this.validator = validator;
+    this.userHelperServiceImpl = userHelpersServiceImpl;
   }
 
   //Registering user
@@ -80,22 +85,7 @@ public class UserServiceImpl implements UserService {
 
     UserEntity user = userOptional.get();
 
-    if (input.getEmail() != null) {
-      user.setEmail(input.getEmail());
-    }
-    if (input.getUsername() != null) {
-      user.setUsername(input.getUsername());
-    }
-    if (input.getPassword() != null) {
-      String encryptedPassword = passwordServiceImpl.encryptPassword(input.getPassword());
-      user.setPassword(encryptedPassword);
-    }
-    if (input.getName() != null) {
-      user.setName(input.getName());
-    }
-    if (input.getSurname() != null) {
-      user.setSurname(input.getSurname());
-    }
+    userHelperServiceImpl.userDataComparator(user, input); // reads all non null values and updates the user values...
 
     Set<ConstraintViolation<UserEntity>> violations = validator.validate(user);
     if (!violations.isEmpty()) {
