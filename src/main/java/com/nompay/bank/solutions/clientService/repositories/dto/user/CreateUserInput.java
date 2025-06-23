@@ -1,62 +1,26 @@
 package com.nompay.bank.solutions.clientService.repositories.dto.user;
 
-public class CreateUserInput {
-    private String email;
-    private String username;
-    private String password;
-    private String name;
-    private String surname;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
+public record CreateUserInput(
+    @NotBlank
+    @Size(min = 5, max = 30, message = "Email must be at least 5 characters long, less than 30")
+    String email,
 
-    public CreateUserInput() {
-    }
+    @NotBlank
+    @Size(min = 5, max = 25, message = "Username must be at least 5 characters long, less than 25")
+    String username,
 
-    public CreateUserInput(String email, String username, String password, String name, String surname) {
-        this.email = email;
-        this.username = username;
-        this.password = password;
-        this.name = name;
-        this.surname = surname;
-    }
+    @NotBlank
+    @Size(min = 5, max = 35, message = "Password must be at least 5 characters long, less than 35")
+    String password,
 
-    public String getEmail() {
-        return email;
-    }
+    @NotBlank
+    @Size(min = 3, max = 25, message = "Name must be at least 3 characters long, less than 25")
+    String name,
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
-}
-
+    @NotBlank
+    @Size(min = 2, max = 25, message = "Surname must be at least 2 characters long, less than 25")
+    String surname
+) {}

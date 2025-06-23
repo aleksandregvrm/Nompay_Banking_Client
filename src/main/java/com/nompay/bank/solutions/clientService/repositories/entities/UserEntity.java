@@ -1,9 +1,6 @@
 package com.nompay.bank.solutions.clientService.repositories.entities;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
-
 import java.util.Date;
 import java.util.List;
 
@@ -20,28 +17,18 @@ public class UserEntity {
   @Column(name = "id", updatable = false, nullable = false)
   private long id;
 
-  @NotBlank
-  @Size(min = 5, max = 30, message = "Email must be at least 5 characters long, less than 30")
   @Column(nullable = false)
   private String email;
 
-  @NotBlank
-  @Size(min = 3, max = 25, message = "Name must be at least 3 characters long, less than 25")
   @Column(nullable = false)
   private String name;
 
-  @NotBlank
-  @Size(min = 2, max = 25, message = "Surname must be at least 5 characters long, less than 25")
   @Column(nullable = false)
   private String surname;
 
-  @NotBlank
-  @Size(min = 5, max = 25, message = "Username must be at least 5 characters long, less than 25")
   @Column(nullable = false)
   private String username;
 
-  @NotBlank
-  @Size(min = 5, max = 35, message = "Password must be at least 5 characters long, less than 35")
   @Column(nullable = false)
   private String password;
 

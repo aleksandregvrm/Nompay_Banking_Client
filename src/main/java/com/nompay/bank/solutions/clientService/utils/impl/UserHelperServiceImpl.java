@@ -15,21 +15,21 @@ public class UserHelperServiceImpl implements UserHelperService {
 
   @Override
   public void userDataComparator(UserEntity user, UpdateUserInput input) throws Exception {
-    if (input.getEmail() != null) {
-      user.setEmail(input.getEmail());
+    if (input.email() != null) {
+      user.setEmail(input.email());
     }
-    if (input.getUsername() != null) {
-      user.setUsername(input.getUsername());
+    if (input.username() != null) {
+      user.setUsername(input.username());
     }
-    if (input.getPassword() != null) {
-      String encryptedPassword = passwordServiceImpl.encryptPassword(input.getPassword());
+    if (input.password() != null) {
+      String encryptedPassword = passwordServiceImpl.encryptPassword(input.password());
       user.setPassword(encryptedPassword);
     }
-    if (input.getName() != null) {
-      user.setName(input.getName());
+    if (input.name() != null) {
+      user.setName(input.name());
     }
-    if (input.getSurname() != null) {
-      user.setSurname(input.getSurname());
+    if (input.surname() != null) {
+      user.setSurname(input.surname());
     }
   }
 }

@@ -48,25 +48,29 @@ public class UserServiceImpl implements UserService {
     this.userHelperServiceImpl = userHelpersServiceImpl;
   }
 
-  //Registering user
   @Override
   public UserEntity registerUser(CreateUserInput input) throws Exception {
-    UserEntity user = new UserEntity();
-    user.setName(input.getName());
-    user.setSurname(input.getSurname());
-    user.setUsername(input.getUsername());
-    user.setEmail(input.getEmail());
-    String encryptedPassword = this.passwordServiceImpl.encryptPassword(input.getPassword()); // Encrypting the password...
-    user.setPassword(encryptedPassword);
-    // Validating all constraints here...
-    Set<ConstraintViolation<UserEntity>> violations = validator.validate(user);
-    if (!violations.isEmpty()) {
+    out.println(input);
+
+    Set<ConstraintViolation<CreateUserInput>> inputViolations = validator.validate(input);
+    if (!inputViolations.isEmpty()) {
       StringBuilder sb = new StringBuilder();
-      for (ConstraintViolation<UserEntity> violation : violations) {
+      for (ConstraintViolation<CreateUserInput> violation : inputViolations) {
         sb.append(violation.getPropertyPath()).append(": ").append(violation.getMessage()).append("; ");
       }
       throw new IllegalArgumentException("Validation failed: " + sb.toString());
     }
+
+    String encryptedPassword = this.passwordServiceImpl.encryptPassword(input.password()); // Encrypt first
+    UserEntity user = new UserEntity();
+    user.setName(input.name());
+    user.setSurname(input.surname());
+    user.setUsername(input.username());
+    user.setEmail(input.email());
+    user.setPassword(encryptedPassword); // Set encrypted password before persisting
+
+    out.println(user);
+
     try {
       this.userRepository.save(user);
     } catch (ValidationException exception) {
@@ -74,6 +78,7 @@ public class UserServiceImpl implements UserService {
     }
     return user;
   }
+
 
   // Updating user data...
   @Override
