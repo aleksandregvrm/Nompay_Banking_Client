@@ -77,4 +77,15 @@ public class BlockedAccountsEntity {
     public void setBlockDate(Date blockDate) {
         this.blockDate = blockDate;
     }
+
+    @Override
+    public String toString() {
+        return "BlockedAccountsEntity{" +
+            "id=" + id +
+            ", blockedByAccount=" + blockedByAccount +
+            ", blockedAccounts=" + blockedAccounts +
+            ", blockedUserEmail='" + blockedUserEmail + '\'' +
+            ", blockDate=" + blockDate +
+            '}';
+    }
 }

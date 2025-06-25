@@ -50,7 +50,6 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public UserEntity registerUser(CreateUserInput input) throws Exception {
-    out.println(input);
 
     Set<ConstraintViolation<CreateUserInput>> inputViolations = validator.validate(input);
     if (!inputViolations.isEmpty()) {
@@ -68,8 +67,6 @@ public class UserServiceImpl implements UserService {
     user.setUsername(input.username());
     user.setEmail(input.email());
     user.setPassword(encryptedPassword); // Set encrypted password before persisting
-
-    out.println(user);
 
     try {
       this.userRepository.save(user);

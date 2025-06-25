@@ -110,4 +110,18 @@ public class UserEntity {
   public void setUsername(String username) {
     this.username = username;
   }
+
+  @Override
+  public String toString() {
+    return "UserEntity{" +
+        "id=" + id +
+        ", email='" + email + '\'' +
+        ", name='" + name + '\'' +
+        ", surname='" + surname + '\'' +
+        ", username='" + username + '\'' +
+        ", password='" + password + '\'' +
+        ", Accounts=" + Accounts +
+        ", createDate=" + createDate +
+        '}';
+  }
 }

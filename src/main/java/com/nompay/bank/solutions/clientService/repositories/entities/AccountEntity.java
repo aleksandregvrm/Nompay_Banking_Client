@@ -125,4 +125,19 @@ public class AccountEntity {
     public List<BlockedAccountsEntity> getBlockedByAccount() {
         return blockedByAccount;
     }
+
+    @Override
+    public String toString() {
+        return "AccountEntity{" +
+            "id=" + id +
+            ", name='" + name + '\'' +
+            ", email='" + email + '\'' +
+            ", ownerUser=" + ownerUser +
+            ", blockedAccounts=" + blockedAccounts +
+            ", blockedByAccount=" + blockedByAccount +
+            ", balance=" + balance +
+            ", currency='" + currency + '\'' +
+            ", createDate=" + createDate +
+            '}';
+    }
 }
