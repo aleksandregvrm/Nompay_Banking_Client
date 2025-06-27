@@ -50,7 +50,7 @@ public class GraphQLExceptionHandler {
   @GraphQlExceptionHandler(TransactionException.class)
   public GraphQLError badRequestExceptionHandler(TransactionException ex) {
     return GraphqlErrorBuilder.newError()
-        .message("Constraint violation Exception: " + ex.getMessage())
+        .message("Error with the transaction: " + ex.getMessage())
         .errorType(ErrorType.BAD_REQUEST)
         .build();
   }
