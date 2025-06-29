@@ -1,6 +1,7 @@
 package com.nompay.bank.solutions.clientService.repositories.entities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.nompay.bank.solutions.clientService.repositories.enums.AccountCurrencies;
 import jakarta.persistence.*;
 
 import java.util.Date;
@@ -19,11 +20,14 @@ public class AccountEntity {
     @GeneratedValue
     private long id;
 
-    @Column(nullable = false, length = 100)
+    @Column(nullable = false, length = 100, name = "account_name")
     private String name;
 
-    @Column(nullable = false, length = 100)
+    @Column(nullable = false, length = 100, name = "account_email")
     private String email;
+
+    @Column(nullable = true, name = "limit")
+    private Integer limit;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "owner_user_id", nullable = false)
@@ -38,14 +42,15 @@ public class AccountEntity {
     @Column(nullable = false)
     private double balance;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private String currency;
+    private AccountCurrencies currency;
 
     @Column(name = "create_date", updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date createDate;
 
-    public AccountEntity(String name, String email, UserEntity ownerUser, Integer balance, String currency) {
+    public AccountEntity(String name, String email, UserEntity ownerUser, Integer balance, AccountCurrencies currency) {
         this.name = name;
         this.email = email;
         this.ownerUser = ownerUser;
@@ -90,11 +95,11 @@ public class AccountEntity {
         this.balance = balance;
     }
 
-    public String getCurrency() {
+    public AccountCurrencies getCurrency() {
         return currency;
     }
 
-    public void setCurrency(String currency) {
+    public void setCurrency(AccountCurrencies currency) {
         this.currency = currency;
     }
 

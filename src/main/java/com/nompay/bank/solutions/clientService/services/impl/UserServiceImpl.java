@@ -50,7 +50,6 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public UserEntity registerUser(CreateUserInput input) throws Exception {
-
     Set<ConstraintViolation<CreateUserInput>> inputViolations = validator.validate(input);
     if (!inputViolations.isEmpty()) {
       StringBuilder sb = new StringBuilder();
