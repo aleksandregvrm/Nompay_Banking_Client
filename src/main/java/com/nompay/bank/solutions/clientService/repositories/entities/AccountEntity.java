@@ -26,12 +26,12 @@ public class AccountEntity {
     @Column(nullable = false, length = 100, name = "account_email")
     private String email;
 
-    @Column(nullable = true, name = "limit")
+    @Column(nullable = true, name = "`limit`")
     private Integer limit;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "owner_user_id", nullable = false)
-    private final UserEntity ownerUser;
+    private UserEntity ownerUser;
 
     @OneToMany(mappedBy = "blockedAccounts", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private List<BlockedAccountsEntity> blockedAccounts;
@@ -56,6 +56,10 @@ public class AccountEntity {
         this.ownerUser = ownerUser;
         this.balance = balance;
         this.currency = currency;
+    }
+
+    public AccountEntity(){
+
     }
 
     @PrePersist

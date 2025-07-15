@@ -3,6 +3,7 @@ services:
     image: mysql:8.0
     container_name: mysql-container
     environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
       MYSQL_DATABASE: bank
       MYSQL_USER: application_master
       MYSQL_PASSWORD: test
